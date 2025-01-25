@@ -12,6 +12,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        textSelectionTheme: TextSelectionThemeData(
+          cursorColor: Colors.blue,
+          selectionColor: Colors.blue[100],
+          selectionHandleColor: Colors.blue,
+        ),
+      ),
       home: HomePage(),
     );
   }

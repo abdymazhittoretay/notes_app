@@ -31,13 +31,14 @@ class NotePage extends StatelessWidget {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
         child: SizedBox(
           height: MediaQuery.sizeOf(context).height,
           child: TextField(
             focusNode: _focusNode,
             controller: controller,
             autofocus: true,
+            cursorHeight: 30.0,
             decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: "Type here",
