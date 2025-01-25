@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notes_app/pages/note_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -22,7 +23,13 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
         shape: CircleBorder(),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => NotePage(),
+              ));
+        },
         child: Icon(
           Icons.add,
           color: Colors.white,
