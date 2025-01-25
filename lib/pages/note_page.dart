@@ -1,7 +1,12 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 
 class NotePage extends StatelessWidget {
-  const NotePage({super.key});
+  TextEditingController controller = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
+
+  NotePage({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -14,16 +19,33 @@ class NotePage extends StatelessWidget {
         actions: [
           TextButton(
               onPressed: () {
-                Navigator.pop(context);
+                _focusNode.unfocus();
               },
               child: Text(
-                "Ready",
+                "Done",
                 style: TextStyle(color: Colors.white, fontSize: 18.0),
               )),
           SizedBox(
             width: 10.0,
           )
         ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: SizedBox(
+          height: MediaQuery.sizeOf(context).height,
+          child: TextField(
+            focusNode: _focusNode,
+            controller: controller,
+            autofocus: true,
+            decoration: InputDecoration(
+                border: InputBorder.none,
+                hintText: "Type here",
+                hintStyle: TextStyle(fontSize: 18.0)),
+            maxLines:
+                null, // Allows for unlimited lines (multi-line text input)
+          ),
+        ),
       ),
     );
   }
