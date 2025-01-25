@@ -13,7 +13,11 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.white,
+        surfaceTintColor: Colors.black,
+        title: Text("Notes"),
+        centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
