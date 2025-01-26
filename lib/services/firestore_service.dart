@@ -14,7 +14,7 @@ class FirestoreService {
   Stream<QuerySnapshot> getNotes() {
     final notesStream =
         notes.orderBy("timestamp", descending: true).snapshots();
-
+ 
     return notesStream;
   }
 
