@@ -22,7 +22,6 @@ class NotePage extends StatelessWidget {
               onPressed: () {
                 addNote();
                 _focusNode.unfocus();
-                controller.clear();
               },
               child: Text(
                 "Done",

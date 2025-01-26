@@ -68,13 +68,13 @@ class _HomePageState extends State<HomePage> {
               MaterialPageRoute(
                 builder: (context) => NotePage(
                   controller: _noteController,
-                  addNote: () {
-                    if (_noteController.text.isNotEmpty) {
-                      fs.addNote(_noteController.text);
-                    }
-                  },
+                  addNote: addNote,
                 ),
-              ));
+              )).then(
+            (value) {
+              addNote();
+            },
+          );
         },
         child: Icon(
           Icons.add,
@@ -83,5 +83,13 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  // Functions
+  void addNote() {
+    if (_noteController.text.isNotEmpty) {
+      fs.addNote(_noteController.text);
+      _noteController.clear();
+    }
   }
 }
