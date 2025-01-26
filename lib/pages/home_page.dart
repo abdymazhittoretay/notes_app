@@ -70,11 +70,7 @@ class _HomePageState extends State<HomePage> {
                   controller: _noteController,
                   addNote: addNote,
                 ),
-              )).then(
-            (value) {
-              addNote();
-            },
-          );
+              ));
         },
         child: Icon(
           Icons.add,
