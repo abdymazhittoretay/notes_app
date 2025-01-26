@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 class NotePage extends StatelessWidget {
   TextEditingController controller = TextEditingController();
   final FocusNode _focusNode = FocusNode();
+  final void Function() addNote;
 
-  NotePage({super.key, required this.controller});
+  NotePage({super.key, required this.controller, required this.addNote});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,9 @@ class NotePage extends StatelessWidget {
         actions: [
           TextButton(
               onPressed: () {
+                addNote();
                 _focusNode.unfocus();
+                controller.clear();
               },
               child: Text(
                 "Done",
