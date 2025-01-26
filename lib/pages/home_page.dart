@@ -44,15 +44,41 @@ class _HomePageState extends State<HomePage> {
                     String note = data["note"];
                     return ListTile(
                       title: Text(note),
-                      trailing: IconButton(
-                          onPressed: () {
-                            fs.deleteNote(docID);
-                          },
-                          icon: Icon(
-                            Icons.delete,
-                            color: Colors.red,
-                            size: 28.0,
-                          )),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                              onPressed: () {
+                                _noteController.text = note;
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => NotePage(
+                                              controller: _noteController,
+                                              addNote: addNote,
+                                              docID: docID,
+                                              updateNote: () {
+                                                fs.updateNote(docID,
+                                                    _noteController.text);
+                                              },
+                                            )));
+                              },
+                              icon: Icon(
+                                Icons.edit,
+                                color: Colors.black,
+                                size: 28.0,
+                              )),
+                          IconButton(
+                              onPressed: () {
+                                fs.deleteNote(docID);
+                              },
+                              icon: Icon(
+                                Icons.delete,
+                                color: Colors.red,
+                                size: 28.0,
+                              )),
+                        ],
+                      ),
                     );
                   });
             } else {
@@ -69,6 +95,8 @@ class _HomePageState extends State<HomePage> {
                 builder: (context) => NotePage(
                   controller: _noteController,
                   addNote: addNote,
+                  docID: "",
+                  updateNote: () {},
                 ),
               ));
         },
