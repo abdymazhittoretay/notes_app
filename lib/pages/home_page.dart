@@ -43,7 +43,13 @@ class _HomePageState extends State<HomePage> {
 
                     String note = data["note"];
                     return ListTile(
-                      title: Text(note),
+                      contentPadding:
+                          EdgeInsets.only(top: 5.0, left: 16.0, right: 16.0),
+                      title: Text(
+                        maxLines: 1,
+                        note,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
