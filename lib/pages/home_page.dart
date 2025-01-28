@@ -13,7 +13,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   FirestoreService fs = FirestoreService();
 
-  TextEditingController _noteController = TextEditingController();
+  final TextEditingController _noteController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +67,10 @@ class _HomePageState extends State<HomePage> {
                                                 fs.updateNote(docID,
                                                     _noteController.text);
                                               },
-                                            )));
+                                            ))).then((value) {
+                                  _noteController.clear();
+                                });
+                                ;
                               },
                               icon: Icon(
                                 Icons.edit,
@@ -104,7 +107,9 @@ class _HomePageState extends State<HomePage> {
                   docID: "",
                   updateNote: () {},
                 ),
-              ));
+              )).then((value) {
+            _noteController.clear();
+          });
         },
         child: Icon(
           Icons.add,
@@ -119,7 +124,6 @@ class _HomePageState extends State<HomePage> {
   void addNote() {
     if (_noteController.text.isNotEmpty) {
       fs.addNote(_noteController.text);
-      _noteController.clear();
     }
   }
 }
