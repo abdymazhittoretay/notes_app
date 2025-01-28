@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:notes_app/pages/note_page.dart';
 import 'package:notes_app/services/firestore_service.dart';
 
@@ -74,19 +75,33 @@ class _HomePageState extends State<HomePage> {
                                         color: Colors.grey[900],
                                         borderRadius:
                                             BorderRadius.circular(10.0)),
-                                    child: ListTile(
-                                      contentPadding: EdgeInsets.only(
-                                          left: 30.0, right: 30.0),
-                                      title: Text(
-                                        maxLines: 1,
-                                        note,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                      subtitle: Text(
-                                        "${datetime.day.toString().padLeft(2, "0")}.${datetime.month.toString().padLeft(2, "0")}.${datetime.year}",
-                                        style:
-                                            TextStyle(color: Colors.grey[400]),
+                                    child: Slidable(
+                                      endActionPane: ActionPane(
+                                          motion: StretchMotion(),
+                                          children: [
+                                            SlidableAction(
+                                              backgroundColor: Colors.red,
+                                              onPressed: (context) {
+                                                fs.deleteNote(docID);
+                                              },
+                                              foregroundColor: Colors.white,
+                                              icon: Icons.delete,
+                                            )
+                                          ]),
+                                      child: ListTile(
+                                        contentPadding: EdgeInsets.only(
+                                            left: 30.0, right: 30.0),
+                                        title: Text(
+                                          maxLines: 1,
+                                          note,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                        subtitle: Text(
+                                          "${datetime.day.toString().padLeft(2, "0")}.${datetime.month.toString().padLeft(2, "0")}.${datetime.year}",
+                                          style: TextStyle(
+                                              color: Colors.grey[400]),
+                                        ),
                                       ),
                                     ),
                                   ),
