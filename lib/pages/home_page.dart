@@ -18,47 +18,31 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        foregroundColor: Colors.white,
-        surfaceTintColor: Colors.black,
-        title: Text("Notes"),
-        centerTitle: true,
-      ),
-      body: StreamBuilder<QuerySnapshot>(
-          stream: fs.getNotes(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
-              List notesList = snapshot.data!.docs;
-              return ListView.builder(
-                  itemCount: notesList.length,
-                  itemBuilder: (context, index) {
-                    DocumentSnapshot document = notesList[index];
+      backgroundColor: Colors.black,
+      body: SafeArea(
+        child: StreamBuilder<QuerySnapshot>(
+            stream: fs.getNotes(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
+                List notesList = snapshot.data!.docs;
+                return Column(
+                  children: [
+                    Expanded(
+                      child: ListView.builder(
+                          itemCount: notesList.length,
+                          itemBuilder: (context, index) {
+                            DocumentSnapshot document = notesList[index];
 
-                    String docID = document.id;
+                            String docID = document.id;
 
-                    Map<String, dynamic> data =
-                        document.data() as Map<String, dynamic>;
+                            Map<String, dynamic> data =
+                                document.data() as Map<String, dynamic>;
 
-                    String note = data["note"];
-                    Timestamp timestamp = data["timestamp"];
-                    DateTime datetime = timestamp.toDate();
-                    return ListTile(
-                      contentPadding:
-                          EdgeInsets.only(top: 5.0, left: 16.0, right: 16.0),
-                      title: Text(
-                        maxLines: 1,
-                        note,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      subtitle: Text(
-                          "${datetime.day.toString().padLeft(2, "0")}.${datetime.month.toString().padLeft(2, "0")}.${datetime.year}"),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                              onPressed: () {
+                            String note = data["note"];
+                            Timestamp timestamp = data["timestamp"];
+                            DateTime datetime = timestamp.toDate();
+                            return GestureDetector(
+                              onTap: () {
                                 _noteController.text = note;
                                 Navigator.push(
                                     context,
@@ -75,50 +59,63 @@ class _HomePageState extends State<HomePage> {
                                   _noteController.clear();
                                 });
                               },
-                              icon: Icon(
-                                Icons.edit,
-                                color: Colors.black,
-                                size: 28.0,
-                              )),
-                          IconButton(
-                              onPressed: () {
-                                fs.deleteNote(docID);
-                              },
-                              icon: Icon(
-                                Icons.delete,
-                                color: Colors.red,
-                                size: 28.0,
-                              )),
-                        ],
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    top: 10.0, left: 10.0, right: 10.0),
+                                child: ListTile(
+                                  tileColor: Colors.grey[900],
+                                  contentPadding: EdgeInsets.only(
+                                      top: 5.0, left: 16.0, right: 16.0),
+                                  title: Text(
+                                    maxLines: 1,
+                                    note,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  subtitle: Text(
+                                    "${datetime.day.toString().padLeft(2, "0")}.${datetime.month.toString().padLeft(2, "0")}.${datetime.year}",
+                                    style: TextStyle(color: Colors.grey[400]),
+                                  ),
+                                ),
+                              ),
+                            );
+                          }),
+                    ),
+                    Stack(children: [
+                      Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          notesList.length == 1
+                              ? "${notesList.length} note"
+                              : "${notesList.length} notes",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
-                    );
-                  });
-            } else {
-              return Center(child: Text("There are no Notes yet."));
-            }
-          }),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.black,
-        shape: CircleBorder(),
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => NotePage(
-                  controller: _noteController,
-                  addNote: addNote,
-                  docID: "",
-                  updateNote: () {},
-                ),
-              )).then((value) {
-            _noteController.clear();
-          });
-        },
-        child: Icon(
-          Icons.add,
-          color: Colors.white,
-          size: 30.0,
-        ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => NotePage(
+                                          controller: _noteController,
+                                          addNote: addNote,
+                                          docID: "",
+                                          updateNote: () {})));
+                            },
+                            icon: Icon(
+                              Icons.add,
+                              color: Colors.amber,
+                            )),
+                      ),
+                    ]),
+                  ],
+                );
+              } else {
+                return Center(child: Text("There are no Notes yet."));
+              }
+            }),
       ),
     );
   }
