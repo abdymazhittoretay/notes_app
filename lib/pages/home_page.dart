@@ -25,92 +25,106 @@ class _HomePageState extends State<HomePage> {
             builder: (context, snapshot) {
               if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
                 List notesList = snapshot.data!.docs;
-                return Column(
-                  children: [
-                    Expanded(
-                      child: ListView.builder(
-                          itemCount: notesList.length,
-                          itemBuilder: (context, index) {
-                            DocumentSnapshot document = notesList[index];
+                return Padding(
+                  padding: EdgeInsets.only(
+                      left: 16.0, right: 16.0, top: 24.0, bottom: 16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Notes',
+                        style: TextStyle(color: Colors.white, fontSize: 30.0),
+                      ),
+                      Expanded(
+                        child: ListView.builder(
+                            itemCount: notesList.length,
+                            itemBuilder: (context, index) {
+                              DocumentSnapshot document = notesList[index];
 
-                            String docID = document.id;
+                              String docID = document.id;
 
-                            Map<String, dynamic> data =
-                                document.data() as Map<String, dynamic>;
+                              Map<String, dynamic> data =
+                                  document.data() as Map<String, dynamic>;
 
-                            String note = data["note"];
-                            Timestamp timestamp = data["timestamp"];
-                            DateTime datetime = timestamp.toDate();
-                            return GestureDetector(
+                              String note = data["note"];
+                              Timestamp timestamp = data["timestamp"];
+                              DateTime datetime = timestamp.toDate();
+                              return GestureDetector(
+                                onTap: () {
+                                  _noteController.text = note;
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => NotePage(
+                                                controller: _noteController,
+                                                addNote: addNote,
+                                                docID: docID,
+                                                updateNote: () {
+                                                  fs.updateNote(docID,
+                                                      _noteController.text);
+                                                },
+                                              ))).then((value) {
+                                    _noteController.clear();
+                                  });
+                                },
+                                child: Padding(
+                                  padding: EdgeInsets.only(top: 10.0),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.grey[900],
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)),
+                                    child: ListTile(
+                                      contentPadding: EdgeInsets.only(
+                                          left: 30.0, right: 30.0),
+                                      title: Text(
+                                        maxLines: 1,
+                                        note,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      subtitle: Text(
+                                        "${datetime.day.toString().padLeft(2, "0")}.${datetime.month.toString().padLeft(2, "0")}.${datetime.year}",
+                                        style:
+                                            TextStyle(color: Colors.grey[400]),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }),
+                      ),
+                      Stack(children: [
+                        Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            notesList.length == 1
+                                ? "${notesList.length} note"
+                                : "${notesList.length} notes",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        Align(
+                            alignment: Alignment.centerRight,
+                            child: GestureDetector(
                               onTap: () {
-                                _noteController.text = note;
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => NotePage(
-                                              controller: _noteController,
-                                              addNote: addNote,
-                                              docID: docID,
-                                              updateNote: () {
-                                                fs.updateNote(docID,
-                                                    _noteController.text);
-                                              },
-                                            ))).then((value) {
-                                  _noteController.clear();
-                                });
+                                            controller: _noteController,
+                                            addNote: addNote,
+                                            docID: "",
+                                            updateNote: () {})));
                               },
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    top: 10.0, left: 10.0, right: 10.0),
-                                child: ListTile(
-                                  tileColor: Colors.grey[900],
-                                  contentPadding: EdgeInsets.only(
-                                      top: 5.0, left: 16.0, right: 16.0),
-                                  title: Text(
-                                    maxLines: 1,
-                                    note,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  subtitle: Text(
-                                    "${datetime.day.toString().padLeft(2, "0")}.${datetime.month.toString().padLeft(2, "0")}.${datetime.year}",
-                                    style: TextStyle(color: Colors.grey[400]),
-                                  ),
-                                ),
+                              child: Icon(
+                                Icons.add,
+                                color: Colors.yellow[700],
                               ),
-                            );
-                          }),
-                    ),
-                    Stack(children: [
-                      Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          notesList.length == 1
-                              ? "${notesList.length} note"
-                              : "${notesList.length} notes",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: IconButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => NotePage(
-                                          controller: _noteController,
-                                          addNote: addNote,
-                                          docID: "",
-                                          updateNote: () {})));
-                            },
-                            icon: Icon(
-                              Icons.add,
-                              color: Colors.amber,
                             )),
-                      ),
-                    ]),
-                  ],
+                      ]),
+                    ],
+                  ),
                 );
               } else {
                 return Center(child: Text("There are no Notes yet."));
