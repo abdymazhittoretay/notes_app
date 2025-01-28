@@ -42,6 +42,8 @@ class _HomePageState extends State<HomePage> {
                         document.data() as Map<String, dynamic>;
 
                     String note = data["note"];
+                    Timestamp timestamp = data["timestamp"];
+                    DateTime datetime = timestamp.toDate();
                     return ListTile(
                       contentPadding:
                           EdgeInsets.only(top: 5.0, left: 16.0, right: 16.0),
@@ -50,6 +52,8 @@ class _HomePageState extends State<HomePage> {
                         note,
                         overflow: TextOverflow.ellipsis,
                       ),
+                      subtitle: Text(
+                          "${datetime.day.toString().padLeft(2, "0")}.${datetime.month.toString().padLeft(2, "0")}.${datetime.year}"),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -70,7 +74,6 @@ class _HomePageState extends State<HomePage> {
                                             ))).then((value) {
                                   _noteController.clear();
                                 });
-                                ;
                               },
                               icon: Icon(
                                 Icons.edit,
