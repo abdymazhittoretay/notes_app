@@ -20,10 +20,10 @@ class NotePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
-        foregroundColor: Colors.white,
+        foregroundColor: Colors.yellow[700],
         surfaceTintColor: Colors.black,
         actions: [
           TextButton(
@@ -37,7 +37,7 @@ class NotePage extends StatelessWidget {
               },
               child: Text(
                 "Done",
-                style: TextStyle(color: Colors.white, fontSize: 18.0),
+                style: TextStyle(color: Colors.yellow[700], fontSize: 18.0),
               )),
           SizedBox(
             width: 10.0,
@@ -45,10 +45,11 @@ class NotePage extends StatelessWidget {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 5.0),
         child: SizedBox(
           height: MediaQuery.sizeOf(context).height,
           child: TextField(
+            style: TextStyle(color: Colors.white, fontSize: 20.0),
             focusNode: _focusNode,
             controller: controller,
             autofocus: true,
@@ -56,7 +57,7 @@ class NotePage extends StatelessWidget {
             decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: "Type here",
-                hintStyle: TextStyle(fontSize: 18.0)),
+                hintStyle: TextStyle(fontSize: 20.0, color: Colors.grey)),
             maxLines:
                 null, // Allows for unlimited lines (multi-line text input)
           ),
