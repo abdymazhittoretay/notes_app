@@ -34,6 +34,7 @@ class NotePage extends StatelessWidget {
                   updateNote();
                 }
                 _focusNode.unfocus();
+                Navigator.pop(context);
               },
               child: Text(
                 "Done",

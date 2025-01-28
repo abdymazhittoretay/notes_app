@@ -121,11 +121,26 @@ class _HomePageState extends State<HomePage> {
                   ),
                 );
               } else {
-                return Center(
-                    child: Text(
-                  "There are no Notes yet.",
-                  style: TextStyle(color: Colors.white),
-                ));
+                return Padding(
+                  padding: EdgeInsets.only(
+                      left: 16.0, right: 16.0, top: 24.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Notes',
+                        style: TextStyle(color: Colors.white, fontSize: 30.0),
+                      ),
+                      Expanded(
+                        child: Center(
+                            child: Text(
+                          "There are no Notes yet.",
+                          style: TextStyle(color: Colors.white),
+                        )),
+                      ),
+                    ],
+                  ),
+                );
               }
             }),
       ),
