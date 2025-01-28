@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
                 List notesList = snapshot.data!.docs;
                 return Padding(
                   padding: EdgeInsets.only(
-                      left: 16.0, right: 16.0, top: 24.0, bottom: 16.0),
+                      left: 16.0, right: 16.0, top: 24.0, bottom: 30.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -109,42 +109,44 @@ class _HomePageState extends State<HomePage> {
                               );
                             }),
                       ),
-                      Stack(children: [
-                        Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            notesList.length == 1
-                                ? "${notesList.length} note"
-                                : "${notesList.length} notes",
-                            style: TextStyle(color: Colors.white),
-                          ),
+                      Center(
+                        child: Text(
+                          notesList.length == 1
+                              ? "${notesList.length} note"
+                              : "${notesList.length} notes",
+                          style: TextStyle(color: Colors.white),
                         ),
-                        Align(
-                            alignment: Alignment.centerRight,
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => NotePage(
-                                            controller: _noteController,
-                                            addNote: addNote,
-                                            docID: "",
-                                            updateNote: () {})));
-                              },
-                              child: Icon(
-                                Icons.add,
-                                color: Colors.yellow[700],
-                              ),
-                            )),
-                      ]),
+                      ),
                     ],
                   ),
                 );
               } else {
-                return Center(child: Text("There are no Notes yet."));
+                return Center(
+                    child: Text(
+                  "There are no Notes yet.",
+                  style: TextStyle(color: Colors.white),
+                ));
               }
             }),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.black,
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => NotePage(
+                      controller: _noteController,
+                      addNote: addNote,
+                      docID: "",
+                      updateNote: () {}))).then((value) {
+            _noteController.clear();
+          });
+        },
+        child: Icon(
+          Icons.add,
+          color: Colors.yellow[700],
+        ),
       ),
     );
   }
