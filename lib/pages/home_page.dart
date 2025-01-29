@@ -70,24 +70,29 @@ class _HomePageState extends State<HomePage> {
                                 },
                                 child: Padding(
                                   padding: EdgeInsets.only(top: 10.0),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.grey[900],
-                                        borderRadius:
-                                            BorderRadius.circular(10.0)),
-                                    child: Slidable(
-                                      endActionPane: ActionPane(
-                                          motion: StretchMotion(),
-                                          children: [
-                                            SlidableAction(
-                                              backgroundColor: Colors.red,
-                                              onPressed: (context) {
-                                                fs.deleteNote(docID);
-                                              },
-                                              foregroundColor: Colors.white,
-                                              icon: Icons.delete,
-                                            )
-                                          ]),
+                                  child: Slidable(
+                                    endActionPane: ActionPane(
+                                      motion: StretchMotion(),
+                                      children: [
+                                        SlidableAction(
+                                          onPressed: (context) {
+                                            fs.deleteNote(docID);
+                                          },
+                                          borderRadius: BorderRadius.only(
+                                            topRight: Radius.circular(10.0),
+                                            bottomRight: Radius.circular(10.0),
+                                          ),
+                                          backgroundColor: Colors.red,
+                                          foregroundColor: Colors.white,
+                                          icon: Icons.delete,
+                                        )
+                                      ],
+                                    ),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.grey[900],
+                                          borderRadius:
+                                              BorderRadius.circular(10.0)),
                                       child: ListTile(
                                         contentPadding: EdgeInsets.only(
                                             left: 30.0, right: 30.0),
@@ -122,8 +127,7 @@ class _HomePageState extends State<HomePage> {
                 );
               } else {
                 return Padding(
-                  padding: EdgeInsets.only(
-                      left: 16.0, right: 16.0, top: 24.0),
+                  padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 24.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
