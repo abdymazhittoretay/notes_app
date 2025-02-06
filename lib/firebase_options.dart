@@ -3,6 +3,7 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -49,16 +50,16 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyB7HewSltEHCQJ0qeloOXiyz5fNyRkvzOI',
+  static final FirebaseOptions android = FirebaseOptions(
+    apiKey: dotenv.env["API_KEY"] ?? "",
     appId: '1:832287955072:android:e342c0330474ee98862e65',
     messagingSenderId: '832287955072',
     projectId: 'notesapp-82eee',
     storageBucket: 'notesapp-82eee.firebasestorage.app',
   );
 
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBXPem1sl7-ZVDH7st3ewWq8YyDV5VXmBM',
+  static final FirebaseOptions ios = FirebaseOptions(
+    apiKey: dotenv.env["API_KEY"] ?? "",
     appId: '1:832287955072:ios:ac8571867cbf6f73862e65',
     messagingSenderId: '832287955072',
     projectId: 'notesapp-82eee',
